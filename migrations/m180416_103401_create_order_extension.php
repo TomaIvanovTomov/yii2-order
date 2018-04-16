@@ -37,7 +37,9 @@ class m180416_103401_create_order_extension extends Migration
             'currencyLang',
             'currency_id',
             'currency',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createTable('payment_type', [
@@ -64,7 +66,9 @@ class m180416_103401_create_order_extension extends Migration
             'payment_typeLang',
             'payment_id',
             'payment_type',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createTable('order', [
@@ -94,7 +98,9 @@ class m180416_103401_create_order_extension extends Migration
             'order',
             'payment_type',
             'payment_type',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -108,7 +114,9 @@ class m180416_103401_create_order_extension extends Migration
             'order',
             'currency_id',
             'currency',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createTable('user_info', [
@@ -136,7 +144,9 @@ class m180416_103401_create_order_extension extends Migration
             'user_info',
             'order_id',
             'order',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -150,7 +160,9 @@ class m180416_103401_create_order_extension extends Migration
             'user_info',
             'user_id',
             'user',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createTable('company_info', [
@@ -175,7 +187,9 @@ class m180416_103401_create_order_extension extends Migration
             'company_info',
             'user_info_id',
             'user_info',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createTable('order_props', [
@@ -199,7 +213,9 @@ class m180416_103401_create_order_extension extends Migration
             'order_props',
             'order_id',
             'order',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -213,7 +229,9 @@ class m180416_103401_create_order_extension extends Migration
             'order_props',
             'product_id',
             'product',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -227,7 +245,9 @@ class m180416_103401_create_order_extension extends Migration
             'order_props',
             'attr_id',
             'attribute',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -241,7 +261,9 @@ class m180416_103401_create_order_extension extends Migration
             'order_props',
             'attr_value',
             'attribute_value',
-            'id'
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
     }

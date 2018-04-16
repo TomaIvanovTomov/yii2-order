@@ -9,7 +9,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "tomaivanovtomov/yii2-product": "*"
+    },
 	"autoload": {
 		"psr-4": {
 			"tomaivanovtomov\\order\\": ""
