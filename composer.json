@@ -1,0 +1,18 @@
+{
+    "name": "tomaivanovtomov/yii2-order",
+    "type": "yii2-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Toma Tomov",
+            "email": "tomaivanovtomov@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+	"autoload": {
+		"psr-4": {
+			"tomaivanovtomov\\order\\": ""
+		}
+	}
+}
