@@ -9,76 +9,15 @@ class m180416_103401_create_order_extension extends Migration
 {
     public function safeUp()
     {
-        $this->createTable('currency', [
-            'id' => $this->primaryKey(),
-            'default' => $this->tinyInteger(1)->defaultValue(2),
-            'value' => $this->decimal(8, 2),
-            'enable' => $this->tinyInteger(1)->defaultValue(2),
-            'country' => $this->string(50)->defaultValue(null),
-            'local' => $this->string(5)->defaultValue(null)
-        ]);
-
-        $this->createTable('currencyLang', [
-            'id' => $this->primaryKey(),
-            'currency_id' => $this->integer(),
-            'name' => $this->string(255)->defaultValue(null),
-            'sign' => $this->string(10)->defaultValue(null),
-            'language' => $this->string(5),
-        ]);
-
-        $this->createIndex(
-            'index_currency_lang',
-            'currencyLang',
-            'currency_id'
-        );
-
-        $this->addForeignKey(
-            'fk_currency_lang',
-            'currencyLang',
-            'currency_id',
-            'currency',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->createTable('payment_type', [
-            'id' => $this->primaryKey(),
-            'enable' => $this->tinyInteger(1)->defaultValue(2),
-            'sort' => $this->integer(11)->defaultValue(999)
-        ]);
-
-        $this->createTable('payment_typeLang', [
-            'id' => $this->primaryKey(),
-            'payment_id' => $this->integer(11),
-            'name' => $this->string(255)->defaultValue(null),
-            'language' => $this->string(5)
-        ]);
-
-        $this->createIndex(
-            'index_payment_lang',
-            'payment_typeLang',
-            'payment_id'
-        );
-
-        $this->addForeignKey(
-            'fk_payment_lang',
-            'payment_typeLang',
-            'payment_id',
-            'payment_type',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
 
         $this->createTable('order', [
             'id' => $this->primaryKey(),
             'more_info' => $this->text()->defaultValue(null),
             'date_receive' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'date_send' => $this->timestamp(),
+            'date_send' => $this->timestamp()->defaultValue(null),
             'ip' => $this->string(20)->defaultValue(null),
             'discount' => $this->decimal(8, 2)->defaultValue(null),
-            'status' => $this->tinyInteger(2)->defaultValue(1),
+            'status' => $this->integer(2),
             'sum' => $this->decimal(8, 2),
             'delivery' => $this->decimal(8, 2)->defaultValue(null),
             'total' => $this->decimal(8, 2),
@@ -86,6 +25,22 @@ class m180416_103401_create_order_extension extends Migration
             'currency_id' => $this->integer(1),
             'way_bill' => $this->string(255),
         ]);
+
+        $this->createIndex(
+            'index_status_connection',
+            'order',
+            'status'
+        );
+
+        $this->addForeignKey(
+            'fk_order_status',
+            'order',
+            'status',
+            'status',
+            'id',
+            'RESTRICT',
+            'CASCADE'
+        );
 
         $this->createIndex(
             'index_payment_type',
@@ -271,32 +226,6 @@ class m180416_103401_create_order_extension extends Migration
     public function safeDown()
     {
         $this->dropIndex(
-            'index_currency_lang',
-            'currencyLang'
-        );
-
-        $this->dropForeignKey(
-            'fk_currency_lang',
-            'currencyLang'
-        );
-
-        $this->dropTable('currencyLang');
-        $this->dropTable('currency');
-
-        $this->dropIndex(
-            'index_payment_lang',
-            'payment_typeLang'
-        );
-
-        $this->dropForeignKey(
-            'fk_payment_lang',
-            'payment_typeLang'
-        );
-
-        $this->dropTable('payment_typeLang');
-        $this->dropTable('payment_type');
-
-        $this->dropIndex(
             'index_payment_type',
             'order'
         );
@@ -322,7 +251,7 @@ class m180416_103401_create_order_extension extends Migration
         );
         $this->dropIndex(
             'index_user_info_user',
-            'user_ifno'
+            'user_info'
         );
 
         $this->dropForeignKey(
