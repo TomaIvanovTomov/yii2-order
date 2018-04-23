@@ -33,8 +33,11 @@ class CompanyInfo extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        $required = ['dds', 'name', 'address', 'city', 'eik', 'mol'];
+
         return [
-            [['user_info_id', 'dds'], 'integer'],
+            [$required, 'required'],
+            ['dds', 'integer'],
             [['name', 'city', 'address', 'eik', 'mol'], 'string', 'max' => 255],
         ];
     }

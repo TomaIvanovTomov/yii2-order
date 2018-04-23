@@ -25,6 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
             '{export}',
             '{toggleData}',
         ],
+        'tableOptions' => [
+            'style' => 'overflow: hidden'
+        ],
         // set export properties
         'export' => [
             'fontAwesome' => true
@@ -38,13 +41,13 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'kartik\grid\SerialColumn',
                 'contentOptions' => ['class' => 'kartik-sheet-style'],
-                'width' => '3%',
-                'header' => '',
+                'width' => '2%',
+                'hAlign' => 'center',
                 'headerOptions' => ['class' => 'kartik-sheet-style']
             ],
             [
                 'class' => 'kartik\grid\ExpandRowColumn',
-                'width' => '3%',
+                'width' => '2%',
                 'value' => function ($model, $key, $index, $column) {
                     return GridView::ROW_COLLAPSED;
                 },
@@ -72,9 +75,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'date_receive',
-                'hAlign' => 'center',
+                'value' => function( $model ){
+                    return Yii::$app->formatter->asDatetime($model->date_receive);
+                },
                 'vAlign' => 'middle',
-                'width' => '9%',
+                'width' => '15%',
+                'filter' => \kartik\widgets\DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'date_receive',
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true
+                    ]
+                ])
             ],
             [
                 'attribute' => 'status',
@@ -92,13 +105,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         'allowClear' => true
                     ]
                 ]),
-                'hAlign' => 'center',
+                'contentOptions' => [
+                    'style' => 'pointer-events: none'
+                ],
+                'vAlign' => 'middle',
                 'format' => 'raw',
                 'width' => '15%',
             ],
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{view}','width' => '5%','header' => ""],
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{update}','width' => '5%','header' => ""],
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{delete}','width' => '5%','header' => ""],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{view}','width' => '3%','header' => ""],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{update}','width' => '3%','header' => ""],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{delete}','width' => '3%','header' => ""],
         ],
     ]); ?>
 </div>

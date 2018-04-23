@@ -62,7 +62,6 @@ class OrderSearch extends Order
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'date_receive' => $this->date_receive,
             'date_send' => $this->date_send,
             'discount' => $this->discount,
             'sum' => $this->sum,
@@ -77,6 +76,7 @@ class OrderSearch extends Order
             ->andFilterWhere(['like', 'ip', $this->ip])
             ->andFilterWhere(['like', 'way_bill', $this->way_bill])
             ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'date_receive', $this->date_receive])
             ->andFilterWhere(['like', 'first_name', $this->first_name]);
 
         return $dataProvider;

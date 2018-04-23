@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m180416_103401_create_order_extension
+ * Class m180416_103401_create_order_table
  */
-class m180416_103401_create_order_extension extends Migration
+class m180416_103401_create_order_table extends Migration
 {
     public function safeUp()
     {
@@ -74,98 +74,23 @@ class m180416_103401_create_order_extension extends Migration
             'CASCADE'
         );
 
-        $this->createTable('user_info', [
-            'id' => $this->primaryKey(),
-            'order_id' => $this->integer(11),
-            'user_id' => $this->integer(11),
-            'first_name' => $this->string(255)->defaultValue(null),
-            'second_name' => $this->string(255)->defaultValue(null),
-            'last_name' => $this->string(255)->defaultValue(null),
-            'email' => $this->string(255)->defaultValue(null),
-            'city' => $this->string(255)->defaultValue(null),
-            'address_delivery' => $this->string(255)->defaultValue(null),
-            'phone' => $this->string(50)->defaultValue(null),
-            'post_code' => $this->integer(10)->defaultValue(null),
-        ]);
-
-        $this->createIndex(
-            'index_order_user_info',
-            'user_info',
-            'order_id'
-        );
-
-        $this->addForeignKey(
-            'fk_order_user_info',
-            'user_info',
-            'order_id',
-            'order',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->createIndex(
-            'index_user_info_user',
-            'user_info',
-            'user_id'
-        );
-
-        $this->addForeignKey(
-            'fk_user_info_user',
-            'user_info',
-            'user_id',
-            'user',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->createTable('company_info', [
-            'id' => $this->primaryKey(),
-            'user_info_id' => $this->integer(11),
-            'name' => $this->string(255)->defaultValue(null),
-            'city' => $this->string(255)->defaultValue(null),
-            'address' => $this->string(255)->defaultValue(null),
-            'eik' => $this->string(255)->defaultValue(null),
-            'dds' => $this->tinyInteger(1)->defaultValue(2),
-            'mol' => $this->string(255)->defaultValue(null)
-        ]);
-
-        $this->createIndex(
-            'index_company_info',
-            'company_info',
-            'user_info_id'
-        );
-
-        $this->addForeignKey(
-            'fk_user_company_info',
-            'company_info',
-            'user_info_id',
-            'user_info',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->createTable('order_props', [
+        $this->createTable('order_prop', [
             'id' => $this->primaryKey(),
             'order_id' => $this->integer(11),
             'product_id' => $this->integer(11),
-            'attr_id' => $this->integer(11),
-            'attr_value' => $this->integer(11),
             'product_quantity' => $this->integer(11),
             'price' => $this->decimal(8, 2)
         ]);
 
         $this->createIndex(
             'index_order_prop_order',
-            'order_props',
+            'order_prop',
             'order_id'
         );
 
         $this->addForeignKey(
             'fk_order_prop_order',
-            'order_props',
+            'order_prop',
             'order_id',
             'order',
             'id',
@@ -175,13 +100,13 @@ class m180416_103401_create_order_extension extends Migration
 
         $this->createIndex(
             'index_order_prop_product',
-            'order_props',
+            'order_prop',
             'product_id'
         );
 
         $this->addForeignKey(
             'fk_order_prop_product',
-            'order_props',
+            'order_prop',
             'product_id',
             'product',
             'id',
@@ -191,13 +116,13 @@ class m180416_103401_create_order_extension extends Migration
 
         $this->createIndex(
             'index_order_prop_attr',
-            'order_props',
+            'order_prop',
             'attr_id'
         );
 
         $this->addForeignKey(
             'fk_order_prop_attr',
-            'order_props',
+            'order_prop',
             'attr_id',
             'attribute',
             'id',
@@ -207,13 +132,13 @@ class m180416_103401_create_order_extension extends Migration
 
         $this->createIndex(
             'index_order_prop_attr_val',
-            'order_props',
+            'order_prop',
             'attr_value'
         );
 
         $this->addForeignKey(
             'fk_order_prop_attr_val',
-            'order_props',
+            'order_prop',
             'attr_value',
             'attribute_value',
             'id',
@@ -246,72 +171,40 @@ class m180416_103401_create_order_extension extends Migration
         $this->dropTable('order');
 
         $this->dropIndex(
-            'index_order_user_info',
-            'user_info'
-        );
-        $this->dropIndex(
-            'index_user_info_user',
-            'user_info'
-        );
-
-        $this->dropForeignKey(
-            'fk_order_user_info',
-            'user_info'
-        );
-        $this->dropForeignKey(
-            'fk_user_info_user',
-            'user_info'
-        );
-
-        $this->dropTable('user_info');
-
-        $this->dropIndex(
-            'index_company_info',
-            'company_info'
-        );
-
-        $this->dropForeignKey(
-            'fk_user_company_info',
-            'company_info'
-        );
-
-        $this->dropTable('company_info');
-
-        $this->dropIndex(
             'index_order_prop_order',
-            'order_props'
+            'order_prop'
         );
         $this->dropIndex(
             'index_order_prop_product',
-            'order_props'
+            'order_prop'
         );
         $this->dropIndex(
             'index_order_prop_attr',
-            'order_props'
+            'order_prop'
         );
         $this->dropIndex(
             'index_order_prop_attr_val',
-            'order_props'
+            'order_prop'
         );
 
         $this->dropForeignKey(
             'fk_order_prop_order',
-            'order_props'
+            'order_prop'
         );
         $this->dropForeignKey(
             'fk_order_prop_product',
-            'order_props'
+            'order_prop'
         );
         $this->dropForeignKey(
             'fk_order_prop_attr',
-            'order_props'
+            'order_prop'
         );
         $this->dropForeignKey(
             'fk_order_prop_attr_val',
-            'order_props'
+            'order_prop'
         );
 
-        $this->dropTable('order_props');
+        $this->dropTable('order_prop');
 
     }
 }

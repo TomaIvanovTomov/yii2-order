@@ -19,6 +19,7 @@ class CurrencySearch extends Currency
         return [
             [['id', 'default', 'enable'], 'integer'],
             [['value'], 'number'],
+            ['sign', 'safe']
         ];
     }
 
@@ -40,7 +41,7 @@ class CurrencySearch extends Currency
      */
     public function search($params)
     {
-        $query = Currency::find();
+        $query = Currency::find()->joinWith('translation');
 
         // add conditions that should always apply here
 
@@ -62,6 +63,7 @@ class CurrencySearch extends Currency
             'value' => $this->value,
             'enable' => $this->enable,
             'default' => $this->default,
+            'sign' => $this->sign
         ]);
 
         return $dataProvider;

@@ -40,10 +40,14 @@ class UserInfo extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        $required = ['first_name', 'last_name', 'email', 'phone', 'city', 'address_delivery', 'post_code'];
+
         return [
+            [$required, 'required'],
             [['order_id', 'user_id', 'post_code'], 'integer'],
             [['first_name', 'second_name', 'last_name', 'email', 'city', 'address_delivery'], 'string', 'max' => 255],
             [['phone'], 'string', 'max' => 50],
+            ['email', 'email'],
         ];
     }
 

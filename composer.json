@@ -11,12 +11,8 @@
     "minimum-stability": "dev",
     "require": {
         "yiisoft/yii2": "*",
-        "kartik-v/yii2-widget-select2": "@dev",
         "dektrium/yii2-user": "^0.9.13",
-        "kartik-v/yii2-grid": "@dev",
-        "kartik-v/yii2-editable": "@dev",
-        "kartik-v/yii2-datecontrol": "@dev",
-        "kartik-v/yii2-widget-datetimepicker": "*",
+        "kartik-v/yii2-widgets": "@dev",
         "tomaivanovtomov/yii2-product": "*"
     },
     "require-dev": {

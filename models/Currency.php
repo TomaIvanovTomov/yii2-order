@@ -20,6 +20,16 @@ use omgdef\multilingual\MultilingualQuery;
  */
 class Currency extends \yii\db\ActiveRecord
 {
+    /**
+     * Used for switchField function
+     */
+    const ACTION_INDEX = "index";
+
+    /**
+     * Used for switchField function
+     */
+    const ACTION_UPDATE= "index";
+
     public static function find()
     {
         return new MultilingualQuery(get_called_class());
@@ -86,6 +96,33 @@ class Currency extends \yii\db\ActiveRecord
     public static function getAllCurrenciesSelect2()
     {
         return ArrayHelper::map(Currency::findAll(['enable' => 1]), 'id', 'sign');
+    }
+
+    public static function getAllSignsSelect2()
+    {
+        return ArrayHelper::map(Currency::findAll(['enable' => 1]), 'sign', 'sign');
+    }
+
+    public function switchField($action)
+    {
+        $checked = "";
+        $controller = Yii::$app->controller->id;
+        if($this->enable == 1){
+            $checked = 'checked';
+        }
+        return "<input type=\"checkbox\" 
+                        $checked 
+                        id=\"enable_{$this->id}\" 
+                        class=\"codepen-checkbox\" 
+                        onchange=\"changeMode(
+                                        '{$this->id}',
+                                         this, 
+                                         '{$controller}', 
+                                         '{$action}'
+                                     )\">
+                <label for=\"enable_{$this->id}\">
+                    <span class=\"check\"></span>
+                </label>";
     }
 
     /**

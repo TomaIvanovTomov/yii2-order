@@ -82,7 +82,7 @@ class OrderController extends Controller
         $company_info = isset($order->userInfo->companyInfo) ? $order->userInfo->companyInfo : null;
 
         if ($order->load(Yii::$app->request->post())) {
-            var_dump(Yii::$app->request->post('Order'));die;
+
             if(!empty($user)){
                 $user->load(Yii::$app->request->post());
             }

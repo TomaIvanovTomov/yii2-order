@@ -48,16 +48,18 @@ use tomaivanovtomov\order\models\Status;
                         <div class="col-sm-4">
 
                             <?= $form->field($model, 'date_receive')->widget(DateControl::class, [
-                                    'displayFormat' => 'php:d-M-y H:i:s',
-                                    'type' => DateControl::FORMAT_DATETIME,
+                                'displayFormat' => 'php:d-M-y H:i:s',
+                                'type' => DateControl::FORMAT_DATETIME,
+                                'ajaxConversion'=>false,
                             ]) ?>
 
                         </div>
                         <div class="col-sm-4">
 
                             <?= $form->field($model, 'date_send')->widget(DateControl::class, [
-                                    'displayFormat' => 'php:d-M-y H:i:s',
-                                    'type' => DateControl::FORMAT_DATETIME,
+                                'displayFormat' => 'php:d-M-y H:i:s',
+                                'type' => DateControl::FORMAT_DATETIME,
+                                'ajaxConversion'=>false,
                             ]) ?>
 
                         </div>
