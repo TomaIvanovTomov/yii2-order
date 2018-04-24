@@ -2,6 +2,7 @@
 
 namespace tomaivanovtomov\order\models;
 
+use tomaivanovtomov\order\components\Multilingual;
 use Yii;
 use yii\helpers\ArrayHelper;
 use omgdef\multilingual\MultilingualBehavior;
@@ -18,7 +19,7 @@ use omgdef\multilingual\MultilingualQuery;
  * @property Currencylang[] $currencylangs
  * @property Order[] $orders
  */
-class Currency extends \yii\db\ActiveRecord
+class Currency extends Multilingual
 {
     /**
      * Used for switchField function
@@ -93,48 +94,6 @@ class Currency extends \yii\db\ActiveRecord
             ['sign', 'string', 'max' => 10],
             [['default', 'enable'], 'integer'],
         ];
-    }
-
-    /**
-     * Fill multilingual fields
-     *
-     * @param $model
-     * @param array $props
-     */
-    public function multilingualLoad($model, $props = [])
-    {
-        $model_name = explode('\\', get_class($model));
-        $model_name = end($model_name);
-
-        foreach (Yii::$app->params['languages'] as $language) {
-            if (Yii::$app->params['languageDefault'] != $language) {
-                foreach ($props as $property) {
-                    $prop_lang = "{$property}_{$language}";
-                    $model->$prop_lang = Yii::$app->request->post($model_name)["{$property}_{$language}"];
-                }
-            }
-        }
-    }
-
-   /**
-    * Iterate over the array of fileds and adds language suffix if the language is not default
-    * @param $fields
-    * @return array
-    */
-    private function multilingualFields($fields)
-    {
-
-        $output = [];
-
-        foreach ($fields as $field) {
-            foreach (Yii::$app->params['languages'] as $language) {
-                if (Yii::$app->params['languageDefault'] != $language) {
-                    $output[] = "{$field}_{$language}";
-                }
-            }
-        }
-
-        return $output;
     }
 
     /**

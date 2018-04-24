@@ -17,7 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
+        'responsive' => true,
+        'containerOptions' => ['style' => 'overflow: hidden'], // only set when $responsive = false
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
         'tableOptions' => [
@@ -109,9 +110,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'width' => '10%'
             ],
 
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{view}','width' => '5%','header' => ""],
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{update}','width' => '5%','header' => ""],
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{delete}','width' => '5%','header' => ""],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{view}','width' => '5%','header' => Yii::t('app', 'View')],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{update}','width' => '5%','header' => Yii::t('app', 'Update')],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{delete}','width' => '5%','header' => Yii::t('app', 'Delete')],
         ],
     ]); ?>
 </div>

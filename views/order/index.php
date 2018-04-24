@@ -17,7 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
+        'responsive' => true,
+        'containerOptions' => ['style' => 'overflow: hidden'], // only set when $responsive = false
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
         // set your toolbar
@@ -76,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'date_receive',
                 'value' => function( $model ){
-                    return Yii::$app->formatter->asDatetime($model->date_receive);
+                    return Html::encode(Yii::$app->formatter->asDatetime($model->date_receive));
                 },
                 'vAlign' => 'middle',
                 'width' => '15%',
@@ -112,9 +113,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'width' => '15%',
             ],
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{view}','width' => '3%','header' => ""],
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{update}','width' => '3%','header' => ""],
-            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{delete}','width' => '3%','header' => ""],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{view}','width' => '5%','header' => Yii::t('app', 'View')],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{update}','width' => '5%','header' => Yii::t('app', 'Update')],
+            ['class' => 'kartik\grid\ActionColumn', 'template'=>'{delete}','width' => '5%','header' => Yii::t('app', 'Delete')],
         ],
     ]); ?>
 </div>

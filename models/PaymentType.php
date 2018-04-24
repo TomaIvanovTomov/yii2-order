@@ -2,6 +2,7 @@
 
 namespace tomaivanovtomov\order\models;
 
+use tomaivanovtomov\order\components\Multilingual;
 use Yii;
 use yii\helpers\ArrayHelper;
 use omgdef\multilingual\MultilingualQuery;
@@ -17,8 +18,18 @@ use omgdef\multilingual\MultilingualBehavior;
  * @property Order[] $orders
  * @property PaymentTypelang[] $paymentTypelangs
  */
-class PaymentType extends \yii\db\ActiveRecord
+class PaymentType extends Multilingual
 {
+    /**
+     * Used for switchField function
+     */
+    const ACTION_INDEX = "index";
+
+    /**
+     * Used for switchField function
+     */
+    const ACTION_UPDATE= "update";
+
     public static function find()
     {
         return new MultilingualQuery(get_called_class());
@@ -62,7 +73,11 @@ class PaymentType extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        $string = $this->multilingualFields(['title']);
+
         return [
+            [$string, 'string', 'max' => 255],
+            ['title', 'string', 'max' => 255],
             [['sort', 'enable'], 'integer'],
         ];
     }
@@ -76,12 +91,35 @@ class PaymentType extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'enable' => Yii::t('app', 'Enable'),
             'sort' => Yii::t('app', 'Sort'),
+            'title' => Yii::t('app', 'Title'),
         ];
     }
 
     public static function getAllTypesSelect2()
     {
         return ArrayHelper::map(PaymentType::findAll(['enable' => 1]), 'id', 'title');
+    }
+
+    public function switchField($action)
+    {
+        $checked = "";
+        $controller = Yii::$app->controller->id;
+        if($this->enable == 1){
+            $checked = 'checked';
+        }
+        return "<input type=\"checkbox\" 
+                        $checked 
+                        id=\"enable_{$this->id}\" 
+                        class=\"codepen-checkbox\" 
+                        onchange=\"changeSwitch(
+                                        '{$this->id}',
+                                         this, 
+                                         '{$controller}', 
+                                         '{$action}',
+                                     )\">
+                <label for=\"enable_{$this->id}\">
+                    <span class=\"check\"></span>
+                </label>";
     }
 
     /**
