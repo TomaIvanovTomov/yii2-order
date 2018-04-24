@@ -26,35 +26,50 @@ use app\models\Brand;
 
     <div class="row">
 
-        <!--<div class="col-sm-10">
+        <div class="col-sm-12">
 
-            <?/*= DetailView::widget([
+            <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
                     'id',
                     [
-                        'attribute' => 'title',
+                        'attribute' => 'date_receive',
                         'value' => function( $model ){
-                            return $model->title;
+                            return Html::encode(Yii::$app->formatter->asDatetime($model->date_receive, "long"));
                         },
-                        'contentOptions' => [
-                            'class' => 'index-title'
-                        ]
                     ],
                     [
-                        'attribute' => 'description',
+                        'attribute' => 'date_send',
                         'value' => function( $model ){
-                            return $model->description;
+                            return Html::encode(Yii::$app->formatter->asDatetime($model->date_receive, "long"));
                         },
-                        'contentOptions' => [
-                            'class' => 'index-title'
-                        ]
                     ],
-                    'meta_title',
-                    'meta_desc',
+                    'ip',
+                    [
+                        'attribute' => 'currency_id',
+                        'value' => function( $model ){
+                            return Html::encode($model->currency->sign);
+                        }
+                    ],
+                    [
+                        'attribute' => 'way_bill',
+                        'value' => function( $model ){
+                            return Html::encode($model->way_bill);
+                        }
+                    ],
+                    'discount',
+                    'delivery',
+                    'sum',
+                    'total',
+                    [
+                        'attribute' => 'more_info',
+                        'value' => function( $model ){
+                            return Html::encode($model->more_info);
+                        }
+                    ],
                 ],
-            ]) */?>
-        </div>-->
+            ]) ?>
+        </div>
 
     </div>
 

@@ -26,7 +26,21 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id'
+            'id',
+            [
+                'attribute' => 'title',
+                'value' => function( $model ){
+                    return Html::encode($model->title);
+                }
+            ],
+            'sort',
+            [
+                'attribute' => 'enable',
+                'value' => function( $model ){
+                    return $model->enable == 1 ? "<i class='fa fa-check bg-green check-cross'></i>" : "<i class='fa fa-times bg-red check-cross'></i>";
+                },
+                'format' => 'raw',
+            ],
         ],
     ]) ?>
 

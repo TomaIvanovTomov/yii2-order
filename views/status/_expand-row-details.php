@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\DetailView;
 
 ?>
 
@@ -8,35 +9,31 @@ use yii\helpers\Html;
 
     <div class="row">
 
-        <!--<div class="col-sm-10">
+        <div class="col-sm-12">
 
-            <?/*= DetailView::widget([
+            <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
                     'id',
                     [
                         'attribute' => 'title',
                         'value' => function( $model ){
-                            return $model->title;
+                            return Html::encode($model->title);
                         },
                         'contentOptions' => [
                             'class' => 'index-title'
                         ]
                     ],
                     [
-                        'attribute' => 'description',
+                        'attribute' => 'enable',
                         'value' => function( $model ){
-                            return $model->description;
+                            return $model->enable == 1 ? "<i class='fa fa-check bg-green check-cross'></i>" : "<i class='fa fa-times bg-red check-cross'></i>";
                         },
-                        'contentOptions' => [
-                            'class' => 'index-title'
-                        ]
+                        'format' => 'raw',
                     ],
-                    'meta_title',
-                    'meta_desc',
                 ],
-            ]) */?>
-        </div>-->
+            ]) ?>
+        </div>
 
     </div>
 

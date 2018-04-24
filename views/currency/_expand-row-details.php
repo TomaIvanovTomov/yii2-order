@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use tomaivanovtomov\order\models\Currency;
 
 ?>
 
@@ -26,8 +27,34 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id'
-        ],
+            'id',
+            [
+                'attribute' => 'sign',
+                'value' => function( $model ){
+                    return Html::encode($model->sign);
+                }
+            ],
+            [
+                'attribute' => 'value',
+                'value' => function( $model ){
+                    return Html::encode($model->value);
+                }
+            ],
+            [
+                'attribute' => 'default',
+                'value' => function( $model ){
+                    return $model->default == 1 ? "<i class='fa fa-check bg-green check-cross'></i>" : "<i class='fa fa-times bg-red check-cross'></i>";
+                },
+                'format' => 'raw'
+            ],
+            [
+                'attribute' => 'enable',
+                'value' => function( $model ){
+                    return $model->enable == 1 ? "<i class='fa fa-check bg-green check-cross'></i>" : "<i class='fa fa-times bg-red check-cross'></i>";
+                },
+                'format' => 'raw'
+            ],
+        ]
     ]) ?>
 
 </div>
