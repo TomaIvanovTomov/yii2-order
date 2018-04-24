@@ -57,6 +57,21 @@ class StatusController extends Controller
         ]);
     }
 
+    public function actionChangeSwitch(){
+        $id = Yii::$app->request->post('id');
+        $model = Status::findOne($id);
+        if(!empty($model)){
+
+            if($model->enable == 1){
+                $model->enable = 2;
+            }else{
+                $model->enable = 1;
+            }
+
+            $model->update();
+        }
+    }
+
     /**
      * Creates a new Status model.
      * If creation is successful, the browser will be redirected to the 'view' page.

@@ -5,7 +5,6 @@ namespace tomaivanovtomov\order\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Status;
 
 /**
  * StatusSearch represents the model behind the search form of `app\models\Status`.
@@ -19,6 +18,8 @@ class StatusSearch extends Status
     {
         return [
             [['id'], 'integer'],
+            [['enable'], 'integer'],
+            [['title'], 'safe'],
         ];
     }
 
@@ -40,7 +41,7 @@ class StatusSearch extends Status
      */
     public function search($params)
     {
-        $query = Status::find();
+        $query = Status::find()->joinWith('translation');
 
         // add conditions that should always apply here
 
@@ -59,7 +60,10 @@ class StatusSearch extends Status
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'enable' => $this->enable,
         ]);
+
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

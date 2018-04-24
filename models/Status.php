@@ -2,6 +2,7 @@
 
 namespace tomaivanovtomov\order\models;
 
+use tomaivanovtomov\order\components\Multilingual;
 use Yii;
 use omgdef\multilingual\MultilingualBehavior;
 use omgdef\multilingual\MultilingualQuery;
@@ -14,8 +15,13 @@ use yii\helpers\ArrayHelper;
  *
  * @property Statuslang[] $statuslangs
  */
-class Status extends \yii\db\ActiveRecord
+class Status extends Multilingual
 {
+    /**
+    * Used for switchField function
+    */
+    const ACTION_INDEX = "index";
+
     public static function find()
     {
         return new MultilingualQuery(get_called_class());
@@ -59,7 +65,14 @@ class Status extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [];
+        $string = $this->multilingualFields(['title']);
+
+        return [
+            ['title', 'required'],
+            ['title', 'string', 'max' => 100],
+            [$string, 'string', 'max' => 100],
+            ['enable', 'integer']
+        ];
     }
 
     /**
@@ -69,7 +82,35 @@ class Status extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'title' => Yii::t('app', 'Title'),
         ];
+    }
+
+    public static function getAllTypesSelect2()
+    {
+        return ArrayHelper::map(PaymentType::findAll(['enable' => 1]), 'id', 'title');
+    }
+
+    public function switchField($action)
+    {
+        $checked = "";
+        $controller = Yii::$app->controller->id;
+        if($this->enable == 1){
+            $checked = 'checked';
+        }
+        return "<input type=\"checkbox\" 
+                        $checked 
+                        id=\"enable_{$this->id}\" 
+                        class=\"codepen-checkbox\" 
+                        onchange=\"changeSwitch(
+                                        '{$this->id}',
+                                         this, 
+                                         '{$controller}', 
+                                         '{$action}',
+                                     )\">
+                <label for=\"enable_{$this->id}\">
+                    <span class=\"check\"></span>
+                </label>";
     }
 
     public static function getAllStatusesSelect2()
