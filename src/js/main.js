@@ -1,13 +1,13 @@
-//Change switch ( enable | disable ) of model
-function changeMode(id, elem, controller, action) {
+//Change switch ( enable | default ) of model
+function changeSwitch(id, elem, controller, action) {
     id = id || null;
     elem = $(elem);
     if(action === "index"){
         $.ajax({
             method: 'POST',
-            url: location.href.split('/orders')[0]+"/orders/"+controller+"/changeSwitch",
+            url: location.href.split('/orders')[0]+"/orders/"+controller+"/change-switch",
             data: {
-                id: id
+                id: id,
             },
             success: function ( data ) {
                 return false;
@@ -18,9 +18,9 @@ function changeMode(id, elem, controller, action) {
         });
     }else{
         if(elem.is(':checked')){
-            $('#hidden-status').val(1);
+            elem.siblings('.hidden-status').eq(0).val(1);
         }else{
-            $('#hidden-status').val(2);
+            elem.siblings('.hidden-status').eq(0).val(2);
         }
     }
 }

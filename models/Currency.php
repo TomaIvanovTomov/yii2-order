@@ -28,7 +28,17 @@ class Currency extends \yii\db\ActiveRecord
     /**
      * Used for switchField function
      */
-    const ACTION_UPDATE= "index";
+    const ACTION_UPDATE= "update";
+
+    /**
+     * Used for switchField function
+     */
+    const ATTRIBUTE_DEFAULT = "default";
+
+    /**
+     * Used for switchField function
+     */
+    const ATTRIBUTE_ENABLE = "enable";
 
     public static function find()
     {
@@ -74,10 +84,57 @@ class Currency extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        $string = $this->multilingualFields(['sign']);
+
         return [
-            [['value'], 'number'],
+            [['sign', 'value'], 'required'],
+            [['value'], 'double'],
+            [$string, 'string', 'max' => 10],
+            ['sign', 'string', 'max' => 10],
             [['default', 'enable'], 'integer'],
         ];
+    }
+
+    /**
+     * Fill multilingual fields
+     *
+     * @param $model
+     * @param array $props
+     */
+    public function multilingualLoad($model, $props = [])
+    {
+        $model_name = explode('\\', get_class($model));
+        $model_name = end($model_name);
+
+        foreach (Yii::$app->params['languages'] as $language) {
+            if (Yii::$app->params['languageDefault'] != $language) {
+                foreach ($props as $property) {
+                    $prop_lang = "{$property}_{$language}";
+                    $model->$prop_lang = Yii::$app->request->post($model_name)["{$property}_{$language}"];
+                }
+            }
+        }
+    }
+
+   /**
+    * Iterate over the array of fileds and adds language suffix if the language is not default
+    * @param $fields
+    * @return array
+    */
+    private function multilingualFields($fields)
+    {
+
+        $output = [];
+
+        foreach ($fields as $field) {
+            foreach (Yii::$app->params['languages'] as $language) {
+                if (Yii::$app->params['languageDefault'] != $language) {
+                    $output[] = "{$field}_{$language}";
+                }
+            }
+        }
+
+        return $output;
     }
 
     /**
@@ -103,26 +160,41 @@ class Currency extends \yii\db\ActiveRecord
         return ArrayHelper::map(Currency::findAll(['enable' => 1]), 'sign', 'sign');
     }
 
-    public function switchField($action)
+    public function switchField($action, $attribute)
     {
         $checked = "";
         $controller = Yii::$app->controller->id;
-        if($this->enable == 1){
+        if($this->$attribute == 1){
             $checked = 'checked';
         }
         return "<input type=\"checkbox\" 
                         $checked 
-                        id=\"enable_{$this->id}\" 
+                        id=\"{$attribute}_{$this->id}\" 
                         class=\"codepen-checkbox\" 
-                        onchange=\"changeMode(
+                        onchange=\"changeSwitch(
                                         '{$this->id}',
                                          this, 
                                          '{$controller}', 
-                                         '{$action}'
+                                         '{$action}',
                                      )\">
-                <label for=\"enable_{$this->id}\">
+                <label for=\"{$attribute}_{$this->id}\">
                     <span class=\"check\"></span>
                 </label>";
+    }
+
+    /**
+     * If current value is set to default, turn off all others
+     *
+     * @param $value
+     * @return bool
+     */
+    public function checkIfDefault($value)
+    {
+        if($value == 1){
+            Yii::$app->db->createCommand("UPDATE `currency` SET `currency`.`default`=2")->execute();
+        }
+
+        return false;
     }
 
     /**

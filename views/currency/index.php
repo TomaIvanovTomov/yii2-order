@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'enable',
                 'value' => function( $model ){
-                    return $model->switchField(Currency::ACTION_INDEX);
+                    return $model->switchField(Currency::ACTION_INDEX, Currency::ATTRIBUTE_ENABLE);
                 },
                 'filter' => Select2::widget([
                     'model' => $searchModel,
