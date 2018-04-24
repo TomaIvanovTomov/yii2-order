@@ -130,6 +130,36 @@ class PaymentTypeController extends Controller
         }
     }
 
+    public function actionSort()
+    {
+        $model = new PaymentType();
+
+        if(Yii::$app->request->post()){
+
+            $sort = 1;
+
+            foreach (Yii::$app->request->post('Type') as $id){
+
+                if( $model->reorderTypes($id, $sort) === false ){
+                    Yii::$app->session->setFlash('error', Yii::t('app', 'Something went wrong! Please, try again.'));
+                    return $this->render('_sort', [
+                        'result' => $model->loadTypes()
+                    ]);
+                }
+
+                $sort++;
+
+            }
+
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Order was updated successfully!'));
+
+        }
+
+        return $this->render('_sort', [
+            'result' => $model->loadTypes()
+        ]);
+    }
+
     /**
      * Deletes an existing PaymentType model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

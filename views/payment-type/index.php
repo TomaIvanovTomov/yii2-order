@@ -29,6 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['content' =>
                 Html::a(Yii::t('app', 'Create payment type'), ['create'], ['class' => 'btn btn-success', 'data-pjax' => 0])
             ],
+            ['content' =>
+                Html::a(Yii::t('app', 'Sort'), ['sort'], ['class' => 'btn btn-warning', 'data-pjax' => 0])
+            ],
             '{export}',
             '{toggleData}',
         ],

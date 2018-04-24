@@ -39,7 +39,7 @@ class PaymentTypeSearch extends PaymentType
      */
     public function search($params)
     {
-        $query = PaymentType::find()->joinWith('translation');
+        $query = PaymentType::find()->joinWith('translation')->orderBy('sort ASC');
 
         // add conditions that should always apply here
 

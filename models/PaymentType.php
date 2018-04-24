@@ -7,6 +7,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use omgdef\multilingual\MultilingualQuery;
 use omgdef\multilingual\MultilingualBehavior;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "payment_type".
@@ -120,6 +121,47 @@ class PaymentType extends Multilingual
                 <label for=\"enable_{$this->id}\">
                     <span class=\"check\"></span>
                 </label>";
+    }
+
+    /**
+     * Load all records in certain html view
+     *
+     * @return array
+     */
+    public function loadTypes()
+    {
+        $types = PaymentType::find()->joinWith('translation')->select(['payment_type.id', 'title'])->orderBy('sort ASC')->asArray()->all();
+
+        $output = [];
+
+        foreach ($types as $type) {
+            $output[] = [
+                'content' =>
+                    "<div class=\"grid-item text-danger\" style='width: auto; height: 150px;'>
+                        <input type='hidden' name='Type[{$type['id']}]' value='{$type['id']}'>
+                        ".mb_substr($type['title'], 0, 50, 'UTF-8')."...
+                    </div>"
+            ];
+        }
+
+        return $output;
+    }
+
+    /**
+     * Reorder records
+     *
+     * @param $id
+     * @param $sort
+     * @return bool
+     */
+    public function reorderTypes($id, $sort)
+    {
+        $model = PaymentType::findOne((int)$id);
+        $model->sort = $sort;
+
+        if($model->update() === false){
+            return false;
+        }
     }
 
     /**
