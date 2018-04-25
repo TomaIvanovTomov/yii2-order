@@ -12,8 +12,7 @@
     "require": {
         "yiisoft/yii2": "*",
         "dektrium/yii2-user": "^0.9.13",
-        "kartik-v/yii2-widgets": "@dev",
-        "tomaivanovtomov/yii2-product": "*"
+        "kartik-v/yii2-widgets": "@dev"
     },
     "require-dev": {
         "jlorente/yii2-widget-remainingcharacters": "*"
