@@ -8,6 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use tomaivanovtomov\order\models\PaymentType;
 use tomaivanovtomov\order\models\PaymentTypeSearch;
+use yii\filters\AccessControl;
 
 /**
  * PaymentTypeController implements the CRUD actions for PaymentType model.
@@ -20,6 +21,15 @@ class PaymentTypeController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
