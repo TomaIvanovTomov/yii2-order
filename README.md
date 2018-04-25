@@ -3,7 +3,7 @@
 <h2>Installation</h2>
 
 ```bash
-composer require tomaivanovtomov/yii2-order "1.0.0"
+composer require tomaivanovtomov/yii2-order "1.0.6"
 ```
 
 <h2>Configuration</h2>
